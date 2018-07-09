@@ -14,9 +14,9 @@ class CalculatorTest extends TestCase
 
     /**
      * TODO: explain difference between setUp() and tearDown()
-     * setUp create object, tearDown delete object
+     * setUp create object when we run test, tearDown delete object when we finish test
      * TODO: what difference between setUp() and setUpBeforeClass()
-     *
+     * setUp create object when we run test setUpBeforeClass before test is run
      *
      * @see http://phpunit.readthedocs.io/en/7.1/fixtures.html#more-setup-than-teardown
      */
@@ -27,7 +27,7 @@ class CalculatorTest extends TestCase
 
     /**
      * TODO: Which methods should be mocked for Command?
-     *
+     * We should mock method which create dependencies(objects)
      * @see https://phpunit.readthedocs.io/en/7.1/test-doubles.html
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
@@ -124,7 +124,7 @@ class CalculatorTest extends TestCase
     {
         $this->expectExceptionmessage('Command my command is not found');
 
-        $this->calc->compute('my command',1,2,3);
+        $this->calc->compute('my command',1,2);
     }
 
     /**
@@ -179,7 +179,17 @@ class CalculatorTest extends TestCase
      */
     public function testReplay()
     {
+        // REVISION//
 
+        $mock = $this->getCommandMock();
+
+        $command = $this->calc->addCommand('Mike',$mock); //add comand
+
+        $computeResult = $this->calc->compute('Mike', 1,2); //compute with new comand
+
+        $replay = $computeResult->replay(); // replay new comand
+
+        $this->assertEquals($computeResult, $replay);
     }
 
     /**
@@ -189,6 +199,10 @@ class CalculatorTest extends TestCase
      */
     public function testUndo()
     {
+
+
+
+
 
     }
 
