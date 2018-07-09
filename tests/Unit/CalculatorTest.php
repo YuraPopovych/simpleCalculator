@@ -179,17 +179,7 @@ class CalculatorTest extends TestCase
      */
     public function testReplay()
     {
-        // REVISION//
-
-        $mock = $this->getCommandMock();
-
-        $command = $this->calc->addCommand('Mike',$mock); //add comand
-
-        $computeResult = $this->calc->compute('Mike', 1,2); //compute with new comand
-
-        $replay = $computeResult->replay(); // replay new comand
-
-        $this->assertEquals($computeResult, $replay);
+        
     }
 
     /**
@@ -199,9 +189,6 @@ class CalculatorTest extends TestCase
      */
     public function testUndo()
     {
-
-
-
 
 
     }
