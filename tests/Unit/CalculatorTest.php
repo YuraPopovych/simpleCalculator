@@ -181,7 +181,24 @@ class CalculatorTest extends TestCase
      * @covers Calculator::getResult()
      */
     public function testGetResultNegative()
-    {}
+    {
+        $command = $this->getCommandMock();
+        //expects never run execute()
+        $command->expects($this->never())
+            ->method('execute');
+
+        //add mock obj
+        $this->calc->addCommand('dont panic!',$command);
+
+        //catch exception
+        $this->expectException('InvalidArgumentException');
+
+        //add void arg to compute() which thrown exception
+        //and dont run execute()
+        $this->calc->init(1)
+            ->compute('dont panic!',[])
+            ->getResult();
+    }
 
     /**
      * TODO: Check whether the last item in the intents array was duplicated
@@ -195,7 +212,7 @@ class CalculatorTest extends TestCase
 
         $this->calc->compute('Mike', 1)
                     ->replay();
-        var_dump($this->calc);
+
         $this->assertAttributeEquals([[$command,[1]], [$command,[1]]], 'intents', $this->calc );
 
 
