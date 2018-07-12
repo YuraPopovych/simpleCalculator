@@ -4,6 +4,8 @@ namespace tests\Unit;
 use \PHPUnit\Framework\TestCase;
 use src\Calculator;
 use src\Commands\CommandInterface;
+use src\Commands\SumCommand;
+
 
 class CalculatorTest extends TestCase
 {
@@ -156,8 +158,17 @@ class CalculatorTest extends TestCase
     public function testGetResultPositive()
     {
 
+        $command = $this->getCommandMock();
+        //create mock method of mock obj
+        $command->expects($this->once())
+            ->method('execute');
+        // attach mocked obj
+        $this->calc->addCommand('dont panic!',$command); //
+        // initialize calc obj and call method which run execute method
+        $this->calc->init(1)
+            ->compute('dont panic!',1)
+            ->getResult();
     }
-
     /**
      * TODO: Check that command was executed with exception
      *
@@ -168,9 +179,7 @@ class CalculatorTest extends TestCase
      * @covers Calculator::getResult()
      */
     public function testGetResultNegative()
-    {
-
-    }
+    {}
 
     /**
      * TODO: Check whether the last item in the intents array was duplicated
@@ -178,9 +187,7 @@ class CalculatorTest extends TestCase
      * @covers Calculator::replay()
      */
     public function testReplay()
-    {
-        
-    }
+    {}
 
     /**
      * TODO: Check whether the last item was removed from intents array
@@ -188,10 +195,7 @@ class CalculatorTest extends TestCase
      * @covers Calculator::undo()
      */
     public function testUndo()
-    {
-
-
-    }
+    {}
 
     /**
      * TODO: what difference between tearDown() and tearDownAfterClass()
