@@ -1,6 +1,8 @@
 <?php
 namespace tests\Unit;
 
+use http\Exception\InvalidArgumentException;
+use PharIo\Manifest\Exception;
 use \PHPUnit\Framework\TestCase;
 use src\Calculator;
 use src\Commands\CommandInterface;
@@ -187,7 +189,17 @@ class CalculatorTest extends TestCase
      * @covers Calculator::replay()
      */
     public function testReplay()
-    {}
+    {
+        $command = $this->getCommandMock();
+        $this->calc->addCommand('Mike',$command);
+
+        $this->calc->compute('Mike', 1)
+                    ->replay();
+        var_dump($this->calc);
+        $this->assertAttributeEquals([[$command,[1]], [$command,[1]]], 'intents', $this->calc );
+
+
+    }
 
     /**
      * TODO: Check whether the last item was removed from intents array
@@ -195,7 +207,17 @@ class CalculatorTest extends TestCase
      * @covers Calculator::undo()
      */
     public function testUndo()
-    {}
+    {
+        $command = $this->getCommandMock();
+        $this->calc->addCommand('Mike',$command);
+
+        $this->calc->compute('Mike', 1)
+                    ->compute('Mike', 2)
+                    ->compute('Mike', 3)
+                    ->undo();
+
+        $this->assertAttributeNotContains([$command,[3]], 'intents', $this->calc );
+    }
 
     /**
      * TODO: what difference between tearDown() and tearDownAfterClass()
