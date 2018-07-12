@@ -9,6 +9,7 @@ use src\Commands\DivCommand;
 use src\Commands\ExpCommand;
 use src\Commands\SqrtCommand;
 
+
 $calc = new Calculator();
 $calc->addCommand('+', new SumCommand());
 $calc->addCommand('-', new SubCommand());
